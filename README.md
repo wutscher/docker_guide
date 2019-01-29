@@ -66,8 +66,8 @@ Sobald man ein Image hat kann man daraus Container erstellen. Dafür wird der `d
 docker run -p 5000:80 rwutscher/node-exapmle -d
 ```
 Dieser Befehl hat 2 Parameter:
-|||
-|-|-|
+|Parameter|Beschreibung|
+|---|---|
 |-p|Definiert auf welchen Port der Host-Maschine (5000) der Port des Containers weitergeleitet werden soll|
 |-d|Startet den Container als Hintergrundprozess|
 
