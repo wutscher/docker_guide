@@ -7,7 +7,7 @@ Docker ist ein System dass es erlaubt Software in Container zu verlegen. Der Vor
 
 ## Dockerfile
 
-Im Dockerfile wird beschreiben wie ein Docker-Image aufbebaut werden soll. Jedes Dockerfile startet damit, dass angegeben wird welches Image als Basis verwendet wird. Solche Images beinhalten meißtens eine Installation der Tools die benötigt werden um Code zu kompilieren und auszuführen. Es gibt für so gut wie alle Programmiersprachen offizielle Docker-Images die von den Entwicklern zur Verfügung gestellt werden. Um Images zu finden empfehle ich [DockerHub](https://hub.docker.com/) zu verwenden. Dockerhub wird standardmäßig von Docker verwendet um Images herunterzuladen. Es ist also ähnlich wie NPM zu NodeJS. Wenn man ein komplett neues Image erstellen will kann man auch ein Linux Betriebssytem wie Ubuntu als Basis verwenden. Um jetzt ein Image zu erstellen muss man in einer Datei namens `Dockerfile` (ohne Dateityp) mit der Definition der Basis beginnen:
+Im Dockerfile wird beschreiben wie ein Docker-Image aufbebaut werden soll. Man kann es als Grobrezept zur erstellung eines Containers umschreiben. Jedes Dockerfile startet damit, dass angegeben wird welches Image als Basis verwendet wird. Solche Images beinhalten meißtens eine Installation der Tools die benötigt werden um Code zu kompilieren und auszuführen. Es gibt für so gut wie alle Programmiersprachen offizielle Docker-Images die von den Entwicklern zur Verfügung gestellt werden. Um Images zu finden empfehle ich [DockerHub](https://hub.docker.com/) zu verwenden. Dockerhub wird standardmäßig von Docker verwendet um Images herunterzuladen. Es ist also ähnlich wie NPM zu NodeJS. Wenn man ein komplett neues Image erstellen will kann man auch ein Linux Betriebssytem wie Ubuntu als Basis verwenden. Um jetzt ein Image zu erstellen muss man in einer Datei namens `Dockerfile` (ohne Dateityp) mit der Definition der Basis beginnen:
 
 ```dockerfile
 FROM node
@@ -55,8 +55,22 @@ EXPOSE 80
 CMD ["npm", "start"]
 ```
 ### Images
+Wenn ein Dockerfile ein Grobrezept ist, ist ein Image ein mehrbändiges Handbuch zur Erstellung eines Containers. Ein Image beinhaltet alle Dateien, die zum starten eines Containers benötigt werden. Um aus einem 'abstraktem' Dockerfile in ein Image zu bauen wird der `docker build` Befehl verwendet. Dieser Befehl sucht im aktuellen Verzeichniss nach einem Dockerfile und baut daraus ein Image. Wenn man diesem Image einen Namen geben will kann man den `-t` Parameter verwenden. Ein Befehl zum erstellen eines Images könnte also so aussehen:
+```
+docker build -t rwutscher/node-exapmle
+```
 
 ### Container
+Sobald man ein Image hat kann man daraus Container erstellen. Dafür wird der `docker run` Befehl verwendet. Um einen Container des gerade eben erstellten Image zu starten würde der Befehl so aussehen:
+```
+docker run -p 5000:80 rwutscher/node-exapmle -d
+```
+Dieser Befehl hat 2 Parameter:
+|||
+|-|-|
+|-p|Definiert auf welchen Port der Host-Maschine (5000) der Port des Containers weitergeleitet werden soll|
+|-d|Startet den Container als Hintergrundprozess|
+
 
 
 ## Docker-Compose
