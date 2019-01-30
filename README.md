@@ -54,6 +54,7 @@ COPY . .
 EXPOSE 80
 CMD ["npm", "start"]
 ```
+
 ### Images
 Wenn ein Dockerfile ein Grobrezept ist, ist ein Image ein mehrbändiges Handbuch zur Erstellung eines Containers. Ein Image beinhaltet alle Dateien, die zum starten eines Containers benötigt werden. Um aus einem 'abstraktem' Dockerfile in ein Image zu bauen wird der `docker build` Befehl verwendet. Dieser Befehl sucht im aktuellen Verzeichniss nach einem Dockerfile und baut daraus ein Image. Wenn man diesem Image einen Namen geben will kann man den `-t` Parameter verwenden. Ein Befehl zum erstellen eines Images könnte also so aussehen:
 ```
@@ -69,13 +70,80 @@ Dieser Befehl hat 2 Parameter:
 
 |Parameter|Beschreibung|
 |---|---|
-|-p|Definiert auf welchen Port der Host-Maschine (5000) der Port des Containers weitergeleitet werden soll|
+|-p|Definiert auf welchen Port der Host-Maschine (5000) der Port des Containers(80) weitergeleitet werden soll|
 |-d|Startet den Container als Hintergrundprozess|
 
-
+### Volumes
+Volumes können verwendet werden um Code zwischen Host und Container zu teilen. Dieses Feature ist beim Entwickeln von Software unabdingbar, da man seine Software in einem Docker Container ausführen kann ohne das Image neu zu erstellen.
 
 ## Docker-Compose
+Wozu braucht man jetzt Docker-Compose? Kurzgesagt macht Docker-Compose den Umgang mit meherern Containern und das Entwickeln von Containerbasierten Programmen einfacher.
 
+Mit Docker-Compose kann man schnell mehrere Container in einen Service zusammenfassen und die Startparameter dieser Container bestimmen.
+
+Um Docker-Compose zu verwenden muss man zuerst eine `docker-compose.yml` Datei anlegen. 
+
+In dieser Datei muss man zunächst die Version von Docker-Compose, die verwendet wird, angeben. Dies ist wichtig, da sich die Syntax zwischen den Versionen stark verändern kann.
+```yml
+version: '3'
+```
+
+Wenn die Version angegeben ist, kann man unter `services` die verschiedenen Docker Apps die erstellt werden sollen angeben. Hier werden das vorher erstellte Dockerimage und ein MySQL-Server verwendet.
+
+```yml
+services:
+  nodeApp:
+    ...
+  mysql:
+    ...
+```
+
+Bei selbst erstellten Images gibt es 3 wichtige parameter:
+
+|Parameter|Beschreibung|
+|-|-|
+|build|Der Pfad zum Ordner in dem das Dockerfile gespeichert ist|
+|ports|Das Portforwarding des Containers|
+|volumes|Die Volumes die für den Container verwendet werden sollen (siehe Volumes). Ausgangs- und Zielverzeichniss werden durch einen `:` getrennt|
+
+Es kann auch ein `command` definiert werden, der statt dem standardmäßigen `CMD` im Dockerfile ausgeführt wird.
+
+```yml
+build: .
+ports:
+  - "5000:80"
+volumes:
+  - .:/code
+```
+
+Um ein standardmäßiges MySQL Image zu verwenden wird diese Konfiguration, die ich auf der [DockerMySQL](https://docs.docker.com/samples/library/mysql/) Seite gefunden habe, verwendet.
+
+```yml
+image: mysql
+command: --default-authentication-plugin=mysql_native_password
+restart: always
+environment:
+    MYSQL_ROOT_PASSWORD: example
+```
+
+Die fertige docker-compose.yml Datei sollte cirka so aussehen:
+
+```yml
+version: '3'
+services:
+  nodeApp:
+    build: .
+    ports:
+     - "5000:80"
+    volumes:
+     - .:/code
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: example
+```
 
 ## Docker installieren
 
