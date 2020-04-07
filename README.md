@@ -58,7 +58,7 @@ CMD ["npm", "start"]
 ### Images
 Wenn ein Dockerfile ein Grobrezept ist, ist ein Image ein mehrbändiges Handbuch zur Erstellung eines Containers. Ein Image beinhaltet alle Dateien, die zum starten eines Containers benötigt werden. Um aus einem 'abstraktem' Dockerfile in ein Image zu bauen wird der `docker build` Befehl verwendet. Dieser Befehl sucht im aktuellen Verzeichniss nach einem Dockerfile und baut daraus ein Image. Wenn man diesem Image einen Namen geben will kann man den `-t` Parameter verwenden. Ein Befehl zum erstellen eines Images könnte also so aussehen:
 ```
-docker build -t rwutscher/node-exapmle
+docker build -t rwutscher/node-exapmle .
 ```
 
 ### Container
