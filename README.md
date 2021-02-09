@@ -17,7 +17,7 @@ FROM node
 Als nächstes würde ich empfehlen das `Working Directory`, also den Ort an dem der Code gespeichert wird, festzulegen. Wo der Code gespeichert wird macht keinen Unterschied, und man könnte ihn theoretisch im root Verzeichniss speichern aber das ist nicht empfohlen. Hier wird `/code/` als Speicherort verwendet.
 
 ```dockerfile
-WORKDIR /code
+WORKDIR /usr/src/myapp
 ```
 
 Bevor man jetzt den Code hinüberkopiert, wird empfohlen die benötigten Module zu installieren. Da in diesem Beispiel NodeJS verwendet wird, wird hier das `package.json` und `package-lock.json` kopiert und der Befehl `npm install` ausgeführt. Bei python wäre dies das `requirements.txt` und `pip install -r requirements.txt`. Um eine Datei oder einen Ordner zu kopieren wird der Befehl `COPY` verwendet, bei dem das der Ausgangs- und Zielpfad definiert werden. Wenn man in einem Dockerfile einen Kommandozeilen Befehl ausführen will kann `RUN` verwendet werden:
@@ -86,7 +86,7 @@ Um Docker-Compose zu verwenden muss man zuerst eine `docker-compose.yml` Datei a
 
 In dieser Datei muss man zunächst die Version von Docker-Compose, die verwendet wird, angeben. Dies ist wichtig, da sich die Syntax zwischen den Versionen stark verändern kann.
 ```yml
-version: '3'
+version: '3.9'
 ```
 
 Wenn die Version angegeben ist, kann man unter `services` die verschiedenen Docker Apps die erstellt werden sollen angeben. Hier werden das vorher erstellte Dockerimage und ein MySQL-Server verwendet.
