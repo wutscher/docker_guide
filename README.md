@@ -14,7 +14,7 @@ Im Dockerfile wird beschreiben wie ein Docker-Image aufbebaut werden soll. Man k
 FROM node
 ```
 
-Als nächstes würde ich empfehlen das `Working Directory`, also den Ort an dem der Code gespeichert wird, festzulegen. Wo der Code gespeichert wird macht keinen Unterschied, und man könnte ihn theoretisch im root Verzeichniss speichern aber das ist nicht empfohlen. Hier wird `/code/` als Speicherort verwendet.
+Als nächstes würde ich empfehlen das `Working Directory`, also den Ort an dem der Code gespeichert wird, festzulegen. Wo der Code gespeichert wird macht keinen Unterschied, und man könnte ihn theoretisch im root Verzeichniss speichern aber das ist nicht empfohlen. Hier wird `/usr/src/myapp` als Speicherort verwendet.
 
 ```dockerfile
 WORKDIR /usr/src/myapp
